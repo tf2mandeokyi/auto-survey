@@ -1,0 +1,17 @@
+{
+  "name": "self-diagnosis-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "tf2_mandeokyi",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^14.14.10",
+    "@types/node-fetch": "^2.5.7",
+    "jsencrypt": "^3.0.0-rc.1",
+    "node-fetch": "^2.6.1"
+  }
+}
