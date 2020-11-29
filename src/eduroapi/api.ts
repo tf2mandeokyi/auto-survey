@@ -1,8 +1,8 @@
 import fetch from 'node-fetch';
-import { JsEncrypt } from '../encrypt/JsEncrypt'
+import { JsEncrypt } from '../encrypt'
 import * as constant from './constant'
-import { SchoolSearchResult } from './SchoolSearchResult';
-import { SurveyUser } from './SurveyUser';
+import { SchoolSearchResult } from './classes/SchoolSearchResult';
+import { SurveyUser } from './classes/SurveyUser';
 
 export const encryptor = new JsEncrypt();
 encryptor.setPublicKey(constant.rsaKey);

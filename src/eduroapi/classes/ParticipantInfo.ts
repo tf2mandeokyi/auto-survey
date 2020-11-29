@@ -1,5 +1,5 @@
-import * as constant from './constant';
-import { EduroSurveyApi, SurveyResult } from './api';
+import * as constant from '../constant';
+import { EduroSurveyApi, SurveyResult } from '../api';
 
 export class ParticipantInfo {
     atptOfcdcConctUrl: string;

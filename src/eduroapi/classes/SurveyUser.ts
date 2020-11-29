@@ -1,4 +1,4 @@
-import { EduroSurveyApi, encryptor } from './api';
+import { EduroSurveyApi, encryptor } from '../api';
 import { ParticipantPreview } from "./ParticipantPreview";
 
 export class SurveyUser {

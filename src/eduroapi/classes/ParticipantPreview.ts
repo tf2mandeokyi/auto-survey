@@ -1,4 +1,4 @@
-import { EduroSurveyApi } from './api';
+import { EduroSurveyApi } from '../api';
 import { ParticipantInfo } from "./ParticipantInfo";
 
 export class ParticipantPreview {
