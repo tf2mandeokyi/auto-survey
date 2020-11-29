@@ -1,17 +1,36 @@
 import { EduroSurveyApi, ParticipantPreview, SurveyUser, School } from "./src/eduroapi";
-import * as credentials from './credentials.json';
+import fs from 'fs';
 
-async function dosurvey() {
+
+
+interface Credentials {
+    "birthday": string,
+    "studentName": string,
+    "schoolName": string,
+    "schoolType": string,
+    "province": string
+}
+
+
+
+function readCredentials() : Credentials[] {
+    let data = fs.readFileSync('credentials.json');
+    let json = JSON.parse(data.toString());
+    return Array.isArray(json) ? json : [json];
+}
+
+
+
+async function dosurvey(credentials: Credentials) {
     
-    
-    console.log('로그인 정보:\n' + 
+    console.log('로그인 정보: {\n' + 
         `    생일: ${credentials.birthday},\n` + 
         `    이름: ${credentials.studentName},\n\n` + 
 
         `    행정 구역: ${credentials.province},\n` + 
         `    학교급: ${credentials.schoolType},\n` + 
         `    학교: ${credentials.schoolName},\n` + 
-    '\n');
+    '}\n');
 
 
     process.stdout.write('학교 정보 구하는 중... ');
@@ -60,7 +79,7 @@ async function dosurvey() {
     console.log('✔️')
     
 
-    process.stdout.write(`참여자 "${participant.userNameEncpt}" 자가진단하는 중... `);
+    process.stdout.write(`자가진단하는 중... `);
     try {
         let pinfo = await participant.getParticipantInfo();
         await pinfo.doSurvey();
@@ -71,4 +90,8 @@ async function dosurvey() {
     console.log('✔️')
 }
 
-dosurvey().then(console.log);
+(async function a() {
+    for(let cre of readCredentials()) {
+        await dosurvey(cre);
+    }
+})().then(console.log);
