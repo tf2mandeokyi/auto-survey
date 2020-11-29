@@ -50,7 +50,7 @@
 4. 스크립트를 컴파일해준다.
 
    ```bash
-   # credentials.json이 수정됐을 때 외에는 이 작업은 한번만 해주셔도 됩니다.
+   # 이 작업은 한번만 해주시고, credentials.json이 수정됐을 때에만 다시 실행하시면 .
    npx tsc
    ```
 
