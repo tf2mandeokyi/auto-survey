@@ -8,6 +8,7 @@ encryptor.setPublicKey(constant.rsaKey);
 
 
 type SurveyLoginType = 'school';
+type HttpMethod = 'get' | 'post';
 
 
 
@@ -26,11 +27,11 @@ export class EduroSurveyApi {
     
     private static url = 'https://goehcs.eduro.go.kr';
 
-    static async post(dir: string, auth: string, body: object) : Promise<any> {
+    static async fetch(method: HttpMethod, dir: string, auth: string, body?: any) : Promise<any> {
         let response = await fetch(EduroSurveyApi.url + dir, {
-            method: 'POST',
+            method: method,
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': body ? 'application/json' : undefined,
                 'Authorization': auth
             },
             body: JSON.stringify(body)
@@ -39,12 +40,11 @@ export class EduroSurveyApi {
         if(response.status !== 200) throw response.status;
         
         let data = await response.json();
-        console.log(data);
         return data;
     }
 
     static async findUser(loginInfo: LoginInfo) : Promise<SurveyUser> {
-        return new SurveyUser(await EduroSurveyApi.post('/v2/findUser', undefined, {
+        return new SurveyUser(await EduroSurveyApi.fetch('post', '/v2/findUser', undefined, {
             birthday: encryptor.encrypt(loginInfo.birthday),
             name: encryptor.encrypt(loginInfo.name),
             orgCode: loginInfo.orgCode,
@@ -52,6 +52,51 @@ export class EduroSurveyApi {
             stdntPNo: loginInfo.stdntPNo
         }));
     }
+
+    static async searchSchool(provinceName: string, schoolType: string, name: string) : Promise<SchoolSearchResult> {
+        if(!constant.provinces.hasOwnProperty(provinceName)) {
+            throw `"${provinceName}" (이)라는 행정 구역이 존재하지 않습니다.`
+        }
+        if(!constant.schoolType.hasOwnProperty(schoolType)) {
+            throw `"${schoolType}" (이)라는 학교급이 존재하지 않습니다. (가능한 학교급들: [유치원, 초등학교, 중학교, 고등학교, 특수학교])`
+        }
+        return await EduroSurveyApi.fetch('get',
+            `/v2/searchSchool?` +
+                `lctnScCode=${constant.provinces[provinceName]}&` +
+                `schulCrseScCode=${constant.schoolType[schoolType]}&` +
+                `orgName=${encodeURI(name)}&` +
+                `loginType=school`,
+            undefined
+        );
+    }
+}
+
+
+
+export interface SchoolSearchResult {
+    schulList: School[],
+    sizeover: boolean
+}
+
+
+
+export interface School {
+    addres: string
+    atptOfcdcConctUrl: string
+    engOrgNm: string
+    insttClsfCode: string
+    juOrgCode: string
+    kraOrgNm: string
+    lctnScCode: string
+    lctnScNm: string
+    mdfcDtm: string
+    orgAbrvNm01: string
+    orgAbrvNm02: string
+    orgCode: string
+    orgUon: string
+    schulKndScCode: string
+    sigCode: string
+    updid: string
 }
 
 
@@ -80,18 +125,18 @@ export class SurveyUser {
     }
 
     async hasPassword() : Promise<boolean> {
-        return await EduroSurveyApi.post('/v2/hasPassword', this.token, {});
+        return await EduroSurveyApi.fetch('post', '/v2/hasPassword', this.token, {});
     }
 
     async validatePassword(password: string) : Promise<boolean> {
-        return await EduroSurveyApi.post('/v2/hasPassword', this.token, {
+        return await EduroSurveyApi.fetch('post', '/v2/hasPassword', this.token, {
             deviceUuid: '',
             password: encryptor.encrypt(password)
         });
     }
 
     async getParticipantPreviews() : Promise<ParticipantPreview[]>{
-        return (<Array<any>> await EduroSurveyApi.post('/v2/selectUserGroup', this.token, {}))
+        return (<Array<any>> await EduroSurveyApi.fetch('post', '/v2/selectUserGroup', this.token, {}))
             .map(prev => new ParticipantPreview(prev));
     }
 }
@@ -128,7 +173,7 @@ export class ParticipantPreview {
     }
 
     async getParticipantInfo() : Promise<ParticipantInfo> {
-        return new ParticipantInfo(await EduroSurveyApi.post('/v2/getUserInfo', this.token, {
+        return new ParticipantInfo(await EduroSurveyApi.fetch('post', '/v2/getUserInfo', this.token, {
             orgCode: this.orgCode,
             userPNo: this.userPNo
         }));
@@ -187,7 +232,7 @@ export class ParticipantInfo {
     }
 
     async doSurvey() : Promise<SurveyResult> {
-        return new SurveyResult(await EduroSurveyApi.post('/registerServey', this.token, constant.getSurvey(this.token, this.userName)));
+        return new SurveyResult(await EduroSurveyApi.fetch('post', '/registerServey', this.token, constant.getSurvey(this.token, this.userName)));
     }
 }
 

@@ -1,13 +1,30 @@
-import { EduroSurveyApi, ParticipantPreview, SurveyUser } from './src/eduroapi/api';
+import { EduroSurveyApi, ParticipantPreview, School, SurveyUser } from './src/eduroapi/api';
 import * as credentials from './credentials.json';
 
 async function dosurvey() {
-    console.log('로그인 정보: {\n' + 
+    
+    
+    console.log('로그인 정보:\n' + 
         `    생일: ${credentials.birthday},\n` + 
-        `    이름: ${credentials.name},\n` + 
-        `    학교코드: ${credentials.orgCode},\n` + 
-        `    비밀번호: ${''.padStart(credentials.password.length, '*')},\n` + 
-    '}\n');
+        `    이름: ${credentials.studentName},\n\n` + 
+
+        `    행정 구역: ${credentials.province},\n` + 
+        `    학교급: ${credentials.schoolType},\n` + 
+        `    학교: ${credentials.schoolName},\n` + 
+    '\n');
+
+
+    process.stdout.write('학교 정보 구하는 중... ');
+    let schools : School[];
+    try {
+        schools = (await EduroSurveyApi.searchSchool(credentials.province, credentials.schoolType, credentials.schoolName)).schulList;
+        if(schools.length == 0) throw '학교 검색결과가 없습니다.';
+    } catch(e) {
+        console.log(`❌,\n${e}`);
+        return;
+    }
+    console.log('✔️')
+
 
     process.stdout.write('로그인 중... ');
     let user : SurveyUser;
@@ -15,12 +32,12 @@ async function dosurvey() {
         user = await EduroSurveyApi.findUser({
             birthday: credentials.birthday,
             loginType: 'school',
-            name: credentials.name,
-            orgCode: credentials.orgCode,
+            name: credentials.studentName,
+            orgCode: schools[0].orgCode,
             stdntPNo: null
         });
 
-        /* Turns out that the password is not necessary.
+        /* Turns out that the password is not needed.
         if(await user.hasPassword()) {
             await user.validatePassword(credentials.password);
         }
@@ -30,6 +47,7 @@ async function dosurvey() {
         return;
     }
     console.log('✔️')
+
 
     process.stdout.write('참여자 정보 구하는 중... ');
     let participant : ParticipantPreview;
@@ -41,6 +59,7 @@ async function dosurvey() {
     }
     console.log('✔️')
     
+
     process.stdout.write(`참여자 "${participant.userNameEncpt}" 자가진단하는 중... `);
     try {
         let pinfo = await participant.getParticipantInfo();
