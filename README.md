@@ -41,7 +41,7 @@
 3. 현재 레포지토리를 다음 커맨드로 빌드해준다. (한번만 실행)
 
    ```bash
-   # node 빌드
+   # node 모듈 설치
    npm install
    # typescript 설치
    npm install -g typescript
