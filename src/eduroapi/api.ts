@@ -38,7 +38,9 @@ export class EduroSurveyApi {
 
         if(response.status !== 200) throw response.status;
         
-        return await response.json();
+        let data = await response.json();
+        console.log(data);
+        return data;
     }
 
     static async findUser(loginInfo: LoginInfo) : Promise<SurveyUser> {
@@ -184,7 +186,19 @@ export class ParticipantInfo {
         this.userName = obj.userName;
     }
 
-    async doSurvey() : Promise<any> {
-        return await EduroSurveyApi.post('/registerServey', this.token, constant.getSurvey(this.token, this.userName));
+    async doSurvey() : Promise<SurveyResult> {
+        return new SurveyResult(await EduroSurveyApi.post('/registerServey', this.token, constant.getSurvey(this.token, this.userName)));
+    }
+}
+
+
+
+export class SurveyResult {
+    registerDtm: Date;
+    inveYmd: Date;
+    
+    constructor(obj: SurveyResult) {
+        this.registerDtm = new Date(obj.registerDtm);
+        this.inveYmd = new Date(obj.inveYmd);
     }
 }
