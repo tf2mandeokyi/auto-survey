@@ -8,6 +8,8 @@
 
 ## 사용 방법
 
+다음 작업들을 수행하기 전 [nodejs](https://nodejs.org/ko/download/)와 [git](https://git-scm.com/downloads)을 먼저 설치해주세요.
+
 1. 이 레포지토리를 다음 커맨드로 다운로드해준다.
 
    ```bash
