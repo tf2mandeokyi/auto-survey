@@ -8,6 +8,8 @@
 
 ## 사용 방법
 
+다음 작업들을 수행하기 전 [nodejs](https://nodejs.org/ko/download/)와 [git](https://git-scm.com/downloads)을 먼저 설치해주세요.
+
 1. 이 레포지토리를 다음 커맨드로 다운로드해준다.
 
    ```bash
@@ -41,7 +43,7 @@
 3. 현재 레포지토리를 다음 커맨드로 빌드해준다. (한번만 실행)
 
    ```bash
-   # node 빌드
+   # node 모듈 설치
    npm install
    # typescript 설치
    npm install -g typescript
@@ -50,14 +52,14 @@
 4. 스크립트를 컴파일해준다.
 
    ```bash
-   # credentials.json이 수정됐을 때 외에는 이 작업은 한번만 해주셔도 됩니다.
+   # 이 작업은 한번만 해주시고, credentials.json이 수정됐을 때에만 다시 실행하시면 .
    npx tsc
    ```
 
 5. 컴파일된 스크립트를 실행해준다.
 
    ```
-   npm index.js
+   node index.js
    ```
 
    
