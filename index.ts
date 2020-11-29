@@ -1,4 +1,7 @@
-import { EduroSurveyApi, ParticipantPreview, School, SurveyUser } from './src/eduroapi/api';
+import { EduroSurveyApi } from './src/eduroapi/api';
+import { ParticipantPreview } from "./src/eduroapi/ParticipantPreview";
+import { SurveyUser } from "./src/eduroapi/SurveyUser";
+import { School } from "./src/eduroapi/School";
 import * as credentials from './credentials.json';
 
 async function dosurvey() {
