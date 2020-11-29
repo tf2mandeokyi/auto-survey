@@ -2,7 +2,7 @@ export const rsaKey = '30820122300d06092a864886f70d01010105000382010f003082010a0
 
 
 
-export function survey(token: string, name: string) {
+export function getSurvey(token: string, name: string) {
     return {
         deviceUuid: "",
         rspns00: "Y",

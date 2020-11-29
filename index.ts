@@ -1,10 +1,8 @@
 import { EduroSurveyApi } from './src/eduroapi/api';
 import * as credentials from './credentials.json';
 
-let api = new EduroSurveyApi();
-
 async function dosurvey() {
-    let user = await api.findUser({
+    let user = await EduroSurveyApi.findUser({
         birthday: credentials.birthday,
         loginType: 'school',
         name: credentials.name,
@@ -12,13 +10,13 @@ async function dosurvey() {
         stdntPNo: null
     });
 
-    if(await api.hasPassword(user)) {
-        await api.validatePassword(user, credentials.password);
+    if(await user.hasPassword()) {
+        await user.validatePassword(credentials.password);
     }
 
-    let participant = (await api.getParticipantPreviews(user))[0];
-    let pinfo = await api.getParticipantInfo(participant);
-    await api.doSurvey(pinfo);
+    let participant = (await user.getParticipantPreviews())[0];
+    let pinfo = await participant.getParticipantInfo();
+    await pinfo.doSurvey();
 }
 
 dosurvey().then(console.log);
