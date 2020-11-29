@@ -20,9 +20,11 @@ async function dosurvey() {
             stdntPNo: null
         });
 
+        /* Turns out that the password is not necessary.
         if(await user.hasPassword()) {
             await user.validatePassword(credentials.password);
         }
+        */
     } catch(e) {
         console.log('❌');
         return;
