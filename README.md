@@ -57,7 +57,7 @@
 5. 컴파일된 스크립트를 실행해준다.
 
    ```
-   npm index.js
+   node index.js
    ```
 
    
