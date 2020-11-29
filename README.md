@@ -20,14 +20,14 @@
 2. `credentials.json`이라는 파일을 새로 만들고, 다음과 같이 작성해준다.
 
    ```json
-   {
+   [{
        "province": "<행정 구역 (시/도)>",
        "schoolName": "<학교>",
        "schoolType": "<학교급>",
        
        "name": "<학생 이름>",
        "birthday": "<생년월일, YYMMDD>"
-   }
+   }]
    ```
 
    | 키 값        | 설명              | 가능한 타입                                            | 예시           |
