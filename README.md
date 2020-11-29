@@ -42,7 +42,7 @@
 
    ```bash
    # node 빌드
-   npm build
+   npm install
    # typescript 설치
    npm install -g typescript
    ```
