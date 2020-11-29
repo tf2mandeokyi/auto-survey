@@ -3,4 +3,4 @@ global.window = {}; // fake the window object
 
 const encrypt = require('jsencrypt').default;
 
-export const JsEncrypt = encrypt;
+module.exports.JsEncrypt = encrypt;
