@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm install && npm install -g typescript && npx tsc",
+    "do-survey": "node index.js",
+    "do-survey-ts": "npx ts-node index.ts"
   },
   "author": "tf2_mandeokyi",
   "license": "ISC",
