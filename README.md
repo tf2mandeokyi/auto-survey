@@ -38,28 +38,18 @@
    | `name`       | 학생 이름         | (문자열)                                               | "홍길동"       |
    | `birthday`   | 생년월일          | YYMMDD                                                 | "040101"       |
    
-   🛈 참고: 4자리 비밀번호는 입력할 필요가 없습니다.
+   🛈 *참고: 4자리 비밀번호는 입력할 필요가 없습니다.*
 
 3. 현재 레포지토리를 다음 커맨드로 빌드해준다. (한번만 실행)
 
    ```bash
-   # node 모듈 설치
-   npm install
-   # typescript 설치
-   npm install -g typescript
+   npm run build
    ```
 
-4. 스크립트를 컴파일해준다.
-
-   ```bash
-   # 이 작업은 한번만 해주시고, credentials.json이 수정됐을 때에만 다시 실행하시면 .
-   npx tsc
-   ```
-
-5. 컴파일된 스크립트를 실행해준다.
+5. 빌드된 스크립트를 실행해준다.
 
    ```
-   node index.js
+   npm do-survey
    ```
 
    
