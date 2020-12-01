@@ -1,5 +1,6 @@
 import { EduroSurveyApi, ParticipantPreview, SurveyUser, School } from "./src/eduroapi";
 import fs from 'fs';
+import * as jsonreader from './src/json/jsonreader';
 
 
 
@@ -14,8 +15,7 @@ interface Credentials {
 
 
 function readCredentials() : Credentials[] {
-    let data = fs.readFileSync('credentials.json');
-    let json = JSON.parse(data.toString());
+    let json = jsonreader.readSync('credentials.json');
     return Array.isArray(json) ? json : [json];
 }
 
