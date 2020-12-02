@@ -1,5 +1,5 @@
 import mysql, { Connection, ConnectionConfig } from 'mysql';
-import * as dateutil from './dateutil';
+import * as dateutil from '../util/dateutil';
 
 
 
