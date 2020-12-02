@@ -1,5 +1,5 @@
 import mysql, { Connection, ConnectionConfig } from 'mysql';
-import * as jsonreader from '../json/jsonreader';
+import * as dateutil from './dateutil';
 
 
 
@@ -9,6 +9,8 @@ export interface SurveyUser {
     province: string;
     schoolType: string;
     school: string;
+    survey_time_from: string;
+    survey_time_to: string;
 }
 
 
@@ -42,7 +44,44 @@ export class DatabaseConnector {
                 '`province` VARCHAR(32) NOT NULL,' +
                 '`schoolType` VARCHAR(32) NOT NULL,' +
                 '`school` VARCHAR(32) NOT NULL' +
+                '`survey_time_from` VARCHAR(4) NOT NULL' +
+                '`survey_time_to` VARCHAR(4) NOT NULL' +
             `) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;`
         )
+    }
+
+    async getUsers(date: Date) : Promise<SurveyUser[]> {
+        return new Promise<SurveyUser[]>((res, rej) => {
+            let datedigit = dateutil.date24digit(date);
+            this.connection.query(
+                'SELECT * FROM `auto_survey`.`students_info` WHERE `survey_time_from`<=? AND `survey_time_to`>=?',
+                [datedigit, datedigit],
+                (error, result) => {
+                    if(error) rej(error);
+                    res(result);
+                }
+            );
+        })
+    }
+
+    async registerUser(user: SurveyUser) {
+        return new Promise<void>((res, rej) => {
+            this.connection.query(
+                'INSERT INTO `auto_survey`.`students_info` VALUES(?,?,?,?,?,?,?)',
+                [
+                    user.birthday,
+                    user.name,
+                    user.province,
+                    user.schoolType,
+                    user.school,
+                    user.survey_time_from,
+                    user.survey_time_to,
+                ],
+                (error) => {
+                    if(error) rej(error);
+                    res();
+                }
+            )
+        })
     }
 }
