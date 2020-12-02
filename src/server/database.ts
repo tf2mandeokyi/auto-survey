@@ -3,7 +3,7 @@ import * as dateutil from '../util/dateutil';
 
 
 
-export interface SurveyUser {
+export interface SurveyUserCredentials {
     birthday: string;
     name: string;
     province: string;
@@ -16,12 +16,19 @@ export interface SurveyUser {
 
 
 export class DatabaseConnector {
+
+
+    
     private connectionOptions : ConnectionConfig;
     private connection : Connection;
+
+
 
     constructor(connectionOptions: ConnectionConfig) {
         this.connectionOptions = connectionOptions;
     }
+
+
 
     async connect() {
         return new Promise<void>((res, rej) => {
@@ -33,6 +40,8 @@ export class DatabaseConnector {
         })
     }
 
+
+
     async setupDatabase() {
         console.log('Setting database up...');
         this.connection.query('CREATE DATABASE IF NOT EXISTS `auto_survey`');
@@ -43,16 +52,19 @@ export class DatabaseConnector {
                 '`name` VARCHAR(32) NOT NULL,' +
                 '`province` VARCHAR(32) NOT NULL,' +
                 '`schoolType` VARCHAR(32) NOT NULL,' +
-                '`school` VARCHAR(32) NOT NULL' +
-                '`survey_time_from` VARCHAR(4) NOT NULL' +
+                '`school` VARCHAR(32) NOT NULL,' +
+                '`survey_time_from` VARCHAR(4) NOT NULL,' +
                 '`survey_time_to` VARCHAR(4) NOT NULL' +
             `) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;`
         )
     }
 
-    async getUsers(date: Date) : Promise<SurveyUser[]> {
-        return new Promise<SurveyUser[]>((res, rej) => {
+
+
+    async getUsers(date: Date = new Date()) : Promise<SurveyUserCredentials[]> {
+        return new Promise<SurveyUserCredentials[]>((res, rej) => {
             let datedigit = dateutil.date24digit(date);
+            console.log(datedigit);
             this.connection.query(
                 'SELECT * FROM `auto_survey`.`students_info` WHERE `survey_time_from`<=? AND `survey_time_to`>=?',
                 [datedigit, datedigit],
@@ -64,7 +76,9 @@ export class DatabaseConnector {
         })
     }
 
-    async registerUser(user: SurveyUser) {
+
+
+    async registerUser(user: SurveyUserCredentials) {
         return new Promise<void>((res, rej) => {
             this.connection.query(
                 'INSERT INTO `auto_survey`.`students_info` VALUES(?,?,?,?,?,?,?)',

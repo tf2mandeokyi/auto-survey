@@ -1,6 +1,6 @@
 import { EduroSurveyApi, ParticipantPreview, SurveyUser, School } from "./src/eduroapi";
 import fs from 'fs';
-import * as jsonreader from './src/json/jsonreader';
+import * as jsonreader from './src/util/jsonreader';
 
 
 
