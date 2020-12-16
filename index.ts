@@ -8,7 +8,8 @@ interface Credentials {
     "studentName": string,
     "schoolName": string,
     "schoolType": string,
-    "province": string
+    "province": string,
+    "password": string
 }
 
 
@@ -55,11 +56,7 @@ async function dosurvey(credentials: Credentials) {
             stdntPNo: null
         });
 
-        /* Turns out that the password is not needed.
-        if(await user.hasPassword()) {
-            await user.validatePassword(credentials.password);
-        }
-        */
+        await user.validatePassword(credentials.password);
     } catch(e) {
         console.log('❌');
         return;
