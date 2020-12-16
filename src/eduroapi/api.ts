@@ -11,6 +11,7 @@ encryptor.setPublicKey(constant.rsaKey);
 
 type SurveyLoginType = 'school';
 type HttpMethod = 'get' | 'post';
+export type BearerToken = string;
 
 
 
@@ -27,9 +28,13 @@ export interface LoginInfo {
 
 export class EduroSurveyApi {
     
+
+
     private static url = 'https://goehcs.eduro.go.kr';
 
-    static async fetch(method: HttpMethod, dir: string, auth: string, body?: any) : Promise<any> {
+
+
+    static async fetch(method: HttpMethod, dir: string, auth: BearerToken, body?: any) : Promise<any> {
         let response = await fetch(EduroSurveyApi.url + dir, {
             method: method,
             headers: {
@@ -45,6 +50,8 @@ export class EduroSurveyApi {
         return data;
     }
 
+
+
     static async findUser(loginInfo: LoginInfo) : Promise<SurveyUser> {
         return new SurveyUser(await EduroSurveyApi.fetch('post', '/v2/findUser', undefined, {
             birthday: encryptor.encrypt(loginInfo.birthday),
@@ -54,6 +61,8 @@ export class EduroSurveyApi {
             stdntPNo: loginInfo.stdntPNo
         }));
     }
+
+
 
     static async searchSchool(provinceName: string, schoolType: string, name: string) : Promise<SchoolSearchResult> {
         if(!constant.provinces.hasOwnProperty(provinceName)) {

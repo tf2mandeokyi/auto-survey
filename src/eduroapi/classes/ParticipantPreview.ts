@@ -1,4 +1,4 @@
-import { EduroSurveyApi } from '../api';
+import { BearerToken, EduroSurveyApi } from '../api';
 import { ParticipantInfo } from "./ParticipantInfo";
 
 export class ParticipantPreview {
@@ -8,7 +8,7 @@ export class ParticipantPreview {
     orgName: string;
     schulCrseScCode: string;
     stdntYn: string;
-    token: string;
+    token: BearerToken;
     userNameEncpt: string;
     userPNo: string;
     wrongPassCnt: number;

@@ -1,4 +1,4 @@
-import { EduroSurveyApi, encryptor } from '../api';
+import { BearerToken, EduroSurveyApi, encryptor } from '../api';
 import { ParticipantPreview } from "./ParticipantPreview";
 
 export class SurveyUser {
@@ -9,7 +9,7 @@ export class SurveyUser {
     pInfAgrmYn: string;
     userName: string;
     stdntYn: string;
-    token: string;
+    token: BearerToken;
     mngrDeptYn: string;
 
     constructor(obj: SurveyUser) {

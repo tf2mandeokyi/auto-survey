@@ -1,5 +1,5 @@
 import * as constant from '../constant';
-import { EduroSurveyApi, SurveyResult } from '../api';
+import { BearerToken, EduroSurveyApi, SurveyResult } from '../api';
 
 export class ParticipantInfo {
     atptOfcdcConctUrl: string;
@@ -8,7 +8,7 @@ export class ParticipantInfo {
     orgName: string;
     schulCrseScCode: string;
     stdntYn: string;
-    token: string;
+    token: BearerToken;
     userNameEncpt: string;
     userPNo: string;
     wrongPassCnt: number;
